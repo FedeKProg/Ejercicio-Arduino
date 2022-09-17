@@ -1,0 +1,82 @@
+// C++ code
+#include <Adafruit_NeoPixel.h>
+
+#define LED_VERDE 7
+#define LED_ROJO 8
+#define LED_AMARILLO 6
+
+#define LED_PIN 9
+#define LED_COUNT 4
+
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+int leds[4] = {LED_VERDE, LED_AMARILLO, LED_ROJO, LED_AMARILLO};
+int  botones[2] = {1, 2};
+
+void IniciarPinesSalida(int leds [], int size, int mode);
+void apagarLed(int cantidad, int red, int green, int blue, int delayVal);
+void prenderApagarIzquierda(int cantidad, int red, int green, int blue, int delayVal);
+void prenderApagarMitad(int cantidad, int red, int green, int blue, int delayVal);
+
+void setup()
+{
+ IniciarPinesSalida(leds,4, OUTPUT);
+ //IniciarPinesSalida(botones,2,INPUT);
+}
+
+void loop()
+{
+  for (int i = 0; i<4; i++){
+    
+  	digitalWrite(LED_VERDE, HIGH);
+    delay(1000);
+    prenderApagarIzquierda(2, 255, 0, 0, 100);
+    digitalWrite(LED_VERDE, LOW);
+    delay(1000);
+    digitalWrite(LED_AMARILLO, HIGH);
+    delay(1000);
+    prenderApagarMitad(LED_COUNT, 255, 0, 0, 100);
+    digitalWrite(LED_AMARILLO, LOW);
+    delay(1000);
+    apagarLed(LED_COUNT, 0, 0, 0, 100);
+    digitalWrite(LED_ROJO, HIGH);
+    delay(1000);
+    digitalWrite(LED_ROJO, LOW);
+    delay(1000);
+  }
+
+}
+void IniciarPinesSalida(int leds[], int size, int mode){
+  for (int i = 0; i<4; i++)
+  {
+  	pinMode(leds[i], mode);
+  }
+}
+
+void prenderApagarIzquierda(int cantidad, int red, int green, int blue, int delayVal){
+  for (int i = 0; i < cantidad; i++){
+  strip.setPixelColor(i, strip.Color(red,green,blue));
+  strip.show();
+
+  delay(delayVal);
+  }
+}
+
+void prenderApagarMitad(int cantidad, int red, int green, int blue, int delayVal){
+  for (int i = 2; i < cantidad; i++){
+  strip.setPixelColor(i, strip.Color(red,green,blue));
+  strip.show();
+
+  delay(delayVal);
+  }
+}
+
+void apagarLed(int cantidad, int red, int green, int blue, int delayVal){
+  for (int i = cantidad - 1; i > -1; i--){
+  strip.setPixelColor(i, strip.Color(red,green,blue)); 
+  strip.show();
+
+  delay(delayVal);
+  }
+}
+   
